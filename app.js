@@ -39,14 +39,19 @@ server.listen(app.get('port'), function(){
 
 var logs = [ {description: 'First log', status: 'success', date: new Date().toString()} ];
 
-var ios = io.sockets;
-ios.on('connection', function(socket) {
-  
-  ios.emit('log:change', logs);
+io.sockets.on('connection', function(socket) {
+  // Provide current logs on connection
+  socket.emit('log:change', logs);
 
   socket.on('log:add', function(obj) {
+    if (!obj.desciption || obj.description == '') {
+      obj.description = 'No description...';
+    }
+
     logs.push(obj);
-    ios.emit('log:change', logs);
+
+    // Broadcast to everybody
+    io.sockets.emit('log:change', logs);
   });
 
 });
