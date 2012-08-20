@@ -1,0 +1,5 @@
+
+.view-container { margin-top: 30px; }
+
+.log { overflow: hidden; position: relative; }
+.log .name, .log .status, .log .date { float: left; margin-right: 20px; }
